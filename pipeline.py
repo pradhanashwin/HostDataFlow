@@ -5,9 +5,6 @@ from normalization import normalize_hosts
 from data_deduping import dedupe_hosts
 from plot import plot_graph
 from pymongo import MongoClient
-import matplotlib.pyplot as plt
-from datetime import datetime
-import textwrap
 
 
 def run_pipeline(skip: int = None, limit: int = None) -> None:
