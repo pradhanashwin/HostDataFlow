@@ -6,7 +6,7 @@ class QualysApiClient:
         self.api_token = api_token
         self.api_url = api_url
 
-    def fetch_hosts(self, skip: int = 5, limit: int = 2) -> List[dict]:
+    def fetch_hosts(self, skip: int = 1, limit: int = 1) -> List[dict]:
         headers = {"Token": f"{self.api_token}"}
         query_params = f"?skip={skip}&limit={limit}"
         
@@ -25,7 +25,7 @@ class CrowdstrikeApiClient:
         self.api_token = api_token
         self.api_url = api_url
 
-    def fetch_hosts(self, skip: int = 2, limit: int = 2) -> List[dict]:
+    def fetch_hosts(self, skip: int = 1, limit: int = 1) -> List[dict]:
         headers = {"Token": f"{self.api_token}"}
         query_params = f"?skip={skip}&limit={limit}"
         
