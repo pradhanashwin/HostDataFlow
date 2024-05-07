@@ -62,8 +62,10 @@ environment variables here
 
 After installation is completed you can run the project using 
 
-    ```bash
-     python pipeline.py --limit=2 --skip=2  
-    ```
+```bash
+    python pipeline.py --limit=2 --skip=2  
+```
 
-    here limit and skip is an optional value which will be set to 1 by default
+Here limit and skip is an optional value which will be set to 1 by default.
+
+Alter these argument value to get different hosts data from the given APIs.
