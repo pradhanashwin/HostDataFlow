@@ -1,5 +1,7 @@
 from typing import List, Union, Dict
 from datetime import datetime
+import logging
+logger = logging.getLogger(__name__)
 
 def to_camel_case(snake_str: str) -> str:
     return "".join(x.capitalize() for x in snake_str.lower().split("_"))
@@ -49,6 +51,8 @@ def normalize_hosts(hosts: List[dict], source: str) -> List[dict]:
     Returns:
         List[dict]: A list of normalized hosts.
     """
+    logger.info("Data Normalization started")
+    
     normalized_hosts = []
     for host in hosts:
         normalized_host = {}
@@ -119,4 +123,5 @@ def normalize_hosts(hosts: List[dict], source: str) -> List[dict]:
                     # For other fields, just copy as is
                     normalized_host[new_key] = value
         normalized_hosts.append(convert_keys_to_camel(normalized_host))
+    logger.info("Data Normalization completed")
     return normalized_hosts

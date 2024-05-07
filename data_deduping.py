@@ -1,5 +1,6 @@
 from typing import List
-
+import logging
+logger = logging.getLogger(__name__)
 
 def dedupe_hosts(hosts: List[dict]) -> List[dict]:
     """Merges duplicate hosts based on their IP address.
@@ -10,6 +11,8 @@ def dedupe_hosts(hosts: List[dict]) -> List[dict]:
     Returns:
         List[dict]: A list of deduplicated hosts.
     """
+    logger.info("Data deduping started")
+
     deduped_hosts = []
     ip_to_hosts = {}
     for host in hosts:
@@ -32,4 +35,5 @@ def dedupe_hosts(hosts: List[dict]) -> List[dict]:
             deduped_hosts.append(merged_host)
         else:
             deduped_hosts.append(hosts_at_ip[0])
+    logger.info("Data deduping completed")
     return deduped_hosts

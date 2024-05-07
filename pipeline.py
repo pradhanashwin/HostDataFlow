@@ -5,6 +5,9 @@ from normalization import normalize_hosts
 from data_deduping import dedupe_hosts
 from plot import plot_graph
 from pymongo import MongoClient
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def run_pipeline(skip: int = None, limit: int = None) -> None:
@@ -17,6 +20,7 @@ def run_pipeline(skip: int = None, limit: int = None) -> None:
     qualys_api_client = QualysApiClient(API_TOKEN, QUALYS_API_URL)
     crowdstrike_api_client = CrowdstrikeApiClient(API_TOKEN,
                                                   CROWDSTRIKE_API_URL)
+    logger.info("API Fetch started")
 
     qualys_hosts = qualys_api_client.fetch_hosts(skip=skip, limit=limit)
     crowdstrike_hosts = crowdstrike_api_client.fetch_hosts(skip=skip,
@@ -26,6 +30,7 @@ def run_pipeline(skip: int = None, limit: int = None) -> None:
         + normalize_hosts(crowdstrike_hosts, 'CROWDSTRIKE')
     deduped_hosts = dedupe_hosts(normalized_hosts)
 
+    logger.info("Data loading started")
     client = MongoClient(MONGODB_URI)
     db = client["hosts"]
     collection = db["hosts"]
@@ -37,7 +42,8 @@ def run_pipeline(skip: int = None, limit: int = None) -> None:
                 or host["modifiedOn"] > existing_host["modifiedOn"]:
             collection.insert_one(host)
         else:
-            print("Skipping.....")
+            logger.warning("Skipping loading because no new host is found")
+    logger.info("Data loading completed")
 
     # Query the collection to get the hosts
     hosts = list(collection.find())
