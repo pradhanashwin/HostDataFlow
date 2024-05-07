@@ -50,5 +50,5 @@ if __name__ == "__main__":
     parser.add_argument("--skip", type=int, default=None, help="Offset the number of hosts fetched from each API")
     args = parser.parse_args()
     limit = args.limit if args.limit else 1
-    skip = args.skip if args.skip else 1
+    skip = args.skip if args.skip else 0
     run_pipeline(skip=skip, limit=limit)
